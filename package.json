@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Chrome/Brave extension to download Campanion albums as a ZIP",
   "main": "src/content.js",
+  "packageManager": "pnpm@11.5.2",
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build"
