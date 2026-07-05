@@ -1,0 +1,19 @@
+{
+  "name": "campanion-album-downloader",
+  "version": "1.0.0",
+  "description": "Chrome/Brave extension to download Campanion albums as a ZIP",
+  "main": "src/content.js",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "vite": "^5.2.0"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Campanion Album Downloader",
+  "version": "1.0.0",
+  "description": "Chrome/Brave extension to download albums from Campanionapp.com as a single high-resolution ZIP file.",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://api.campanionapp.com/*",
+    "https://*.amazonaws.com/*",
+    "https://*.s3.amazonaws.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.campanionapp.com/*"
+      ],
+      "js": [
+        "inject.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://*.campanionapp.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ]
+    }
+  ]
+}
