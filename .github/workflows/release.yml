@@ -1,0 +1,55 @@
+name: Release Chrome Extension
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build extension
+        run: pnpm build
+
+      - name: Read version
+        id: version
+        run: echo "version=$(node -p "require('./public/manifest.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Package extension
+        run: |
+          cd dist
+          zip -r ../campanion-album-downloader-v${{ steps.version.outputs.version }}.zip .
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          files: campanion-album-downloader-v${{ steps.version.outputs.version }}.zip
+          body: |
+            Automated build from commit ${{ github.sha }}.
+
+            ### Install
+            1. Download `campanion-album-downloader-v${{ steps.version.outputs.version }}.zip` below and unzip it.
+            2. Open `chrome://extensions` (or `brave://extensions`).
+            3. Enable "Developer mode" (top right).
+            4. Click "Load unpacked" and select the unzipped folder.
